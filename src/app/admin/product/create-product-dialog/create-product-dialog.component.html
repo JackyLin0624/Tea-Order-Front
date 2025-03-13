@@ -1,0 +1,96 @@
+<h2 mat-dialog-title>新增產品</h2>
+<mat-dialog-content>
+  <form [formGroup]="productForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>產品名稱</mat-label>
+      <input matInput formControlName="name" placeholder="請輸入產品名稱">
+      @if(productForm.get('name')?.invalid && productForm.get('name')?.touched){
+      <mat-error>
+        產品名稱至少需要 3 個字
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>產品描述</mat-label>
+      <textarea matInput formControlName="description" placeholder="請輸入產品描述"></textarea>
+      @if(productForm.get('description')?.invalid && productForm.get('description')?.touched){
+      <mat-error>
+        產品描述為必填
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>產品分類</mat-label>
+      <mat-select formControlName="categoryId">
+        @for (category of categories; track category.id){
+        <mat-option [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+        }
+
+      </mat-select>
+      @if(productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched){
+      <mat-error>
+        請選擇產品分類
+      </mat-error>
+      }
+
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="isActive">啟用</mat-slide-toggle>
+
+    <h3>產品尺寸</h3>
+    <div formArrayName="productSizes">
+      @for( control of productSizes.controls; track control; let idx = $index){
+      <div [formGroupName]='idx'>
+        <mat-form-field appearance="outline">
+          <mat-label>尺寸</mat-label>
+          <input matInput formControlName="size" placeholder="輸入尺寸（如：小杯/中杯/大杯）">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>價格</mat-label>
+          <input matInput formControlName="price" type="number" placeholder="輸入價格">
+        </mat-form-field>
+        @if(productSizes.length > 1){
+        <button mat-icon-button color="warn" (click)="removeProductSize(idx)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        }
+      </div>
+      }
+    </div>
+    <button mat-button (click)="addProductSize()">+ 新增尺寸</button>
+
+    @for(variantType of variantTypes; track variantType; let idx = $index){
+    <div>
+
+      {{variantType.typeName}}
+      @for(variantValue of variantType.variantValues; track variantValue; let idx2 = $index){
+      <mat-checkbox [formControl]="getVariantOption(idx, idx2)">
+        {{ variantValue.value }}
+        @if(variantValue.extraPrice > 0){
+        (+{{ variantValue.extraPrice }}元)
+        }
+
+      </mat-checkbox>
+      }
+    </div>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()" [disabled]="isLoading">取消</button>
+  <button mat-raised-button color="primary" (click)="createProduct()" [disabled]="productForm.invalid || isLoading">
+    @if(isLoading){
+    <mat-spinner diameter="20"></mat-spinner>
+    }
+    @else{
+    確定
+    }
+
+  </button>
+</mat-dialog-actions>

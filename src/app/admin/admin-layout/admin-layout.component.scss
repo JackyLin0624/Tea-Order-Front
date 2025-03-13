@@ -1,0 +1,29 @@
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spacer {
+  flex: 1;
+}
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.content {
+  padding: 20px;
+}
+.active {
+  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+
+}
+.active {
+  color: #673AB7;
+  font-weight: bold!important;
+}

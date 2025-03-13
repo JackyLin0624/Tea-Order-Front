@@ -1,0 +1,96 @@
+<div style="padding:1rem">
+  <h2>建立訂單</h2>
+
+  <form [formGroup]="orderForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>稱謂</mat-label>
+      <input matInput formControlName="title" placeholder="輸入稱謂">
+      @if(orderForm.get('title')?.invalid && orderForm.get('title')?.touched){
+      <mat-error>
+        稱謂至少 3 個字
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>電話</mat-label>
+      <input matInput formControlName="phone" placeholder="輸入電話號碼">
+      @if(orderForm.get('phone')?.invalid && orderForm.get('phone')?.touched){
+      <mat-error>
+        電話號碼格式錯誤
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>訂購日期</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="orderDate" [matDatepickerFilter]="filterDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>地址</mat-label>
+      <textarea matInput formControlName="address" placeholder="輸入地址"></textarea>
+      @if(orderForm.get('address')?.invalid && orderForm.get('address')?.touched){
+      <mat-error>
+        地址為必填
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>備註</mat-label>
+      <textarea matInput formControlName="remark" placeholder="輸入備註 (選填)"></textarea>
+    </mat-form-field>
+
+    <h3>訂單內容</h3>
+
+    @if(orderItems.length > 0) {
+      <div class="order-items-container">
+        @for(item of orderItems; track item.productId) {
+          <mat-card >
+            <mat-card-content>
+              <h4>{{ item.productName }} - {{ item.size.size }}</h4>
+              <p>數量: {{ item.count }}</p>
+              <p>總價: {{ item.totalAmount }} 元</p>
+
+              @if(item.variants.length) {
+                <p>選項:
+                  @for(variant of item.variants; track variant.id) {
+                    {{ variant.value }}
+                    @if(variant.extraPrice > 0) {
+                      (+{{ variant.extraPrice }}元)
+                    }
+                  }
+                </p>
+              }
+              <p>備註: {{ item.remark }} </p>
+
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+              <button mat-icon-button color="warn" (click)="openModify(item)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="removeOrderItem(item)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    }
+    @else {
+      <p class="empty-text">尚未選擇任何商品</p>
+    }
+
+    <button mat-button color="primary" (click)="openSelect()">+ 新增商品</button>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="closeDialog()" [disabled]="isLoading">取消</button>
+      <button mat-button (click)="submitOrder()" [disabled]="orderForm.invalid">送出訂單</button>
+    </mat-dialog-actions>
+  </form>
+
+</div>

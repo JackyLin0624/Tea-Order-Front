@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="push" [(opened)]="isExpanded" class="sidenav">
+    <mat-toolbar color="primary">Admin Panel</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="closeSideNav()" tabindex="-1">Dashboard</a>
+      <a mat-list-item routerLink="/accounts" routerLinkActive="active" (click)="closeSideNav()" tabindex="-1">帳號管理</a>
+      <a mat-list-item routerLink="/products" routerLinkActive="active" (click)="closeSideNav()" tabindex="-1">產品管理</a>
+      <a mat-list-item routerLink="/orders" routerLinkActive="active" (click)="closeSideNav()" tabindex="-1">訂單管理</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="isExpanded = !isExpanded">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{ toolBarTitle }}</span>
+
+      <span class="spacer"></span>
+
+      <button mat-button color="primary" *ngIf="!isLoggedIn" (click)="login()">
+        <mat-icon>login</mat-icon> 登入
+      </button>
+
+      <button mat-button color="warn" *ngIf="isLoggedIn" (click)="logout()">
+        <mat-icon>logout</mat-icon> 登出
+      </button>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

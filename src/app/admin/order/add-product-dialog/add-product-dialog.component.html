@@ -1,0 +1,78 @@
+<mat-dialog-actions class="dialog-header">
+
+  @if(!isLoading){
+  <mat-card-title>{{ product.name }} ({{product.category.name}})</mat-card-title>
+  }
+
+  <button mat-icon-button (click)="closeDialog()" [disabled]="isLoading">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>
+<mat-dialog-content class="dialog-content">
+
+  @if(isLoading){
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+  }
+  @else {
+  <ng-container>
+    <div class="description-text">
+      描述 : {{ product.description }}
+    </div>
+
+    <h3>尺寸</h3>
+    <mat-radio-group class="radio-group" [(ngModel)]="selectedSize">
+      @for(size of product.productSizes; track size.id) {
+      <mat-card class="size-card">
+        <mat-radio-button [value]="size">
+          {{ size.size }} ({{ size.price }}元)
+        </mat-radio-button>
+      </mat-card>
+      }
+    </mat-radio-group>
+
+    @if(product.options?.length) {
+    <h3>其他</h3>
+    @for(option of product.options; track option.id) {
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ option.typeName }}</mat-label>
+      <mat-select [(ngModel)]="selectedVariants[option.id]">
+        @for(value of option.variantValues; track value.id) {
+        <mat-option [value]="value">
+          {{ value.value }}
+          @if(value.extraPrice > 0){
+          (+{{ value.extraPrice }}元)
+          }
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
+    }
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>備註</mat-label>
+      <textarea matInput [(ngModel)]="remark" placeholder="請輸入備註 (可選填)"></textarea>
+    </mat-form-field>
+  </ng-container>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <div class="quantity-container">
+    總金額 : {{calculatePrice()}}
+    <button mat-icon-button (click)="decreaseCount()" [disabled]="count <= 1">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <span class="count">{{ count }}</span>
+    <button mat-icon-button (click)="increaseCount()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="confirmSelection()" [disabled]="isLoading">
+    確定
+  </button>
+
+
+</mat-dialog-actions>

@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>新增使用者</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="userForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>帳號</mat-label>
+      <input matInput formControlName="account">
+      @if(userForm.get('account')?.invalid && userForm.get('account')?.touched){
+      <mat-error>
+        帳號至少 6 個字
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>使用者名稱</mat-label>
+      <input matInput formControlName="username">
+      @if(userForm.get('username')?.invalid && userForm.get('username')?.touched){
+      <mat-error>
+        使用者名稱為必填
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>密碼</mat-label>
+      <input matInput type="password" formControlName="password">
+      @if(userForm.get('password')?.invalid && userForm.get('password')?.touched){
+      <mat-error>
+        密碼至少 4 個字
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>角色</mat-label>
+      <mat-select formControlName="roleId">
+        @for (role of roles; track role.id){
+        <mat-option [value]="role.id">
+          {{role.name}}
+        </mat-option>
+        }
+      </mat-select>
+      @if(userForm.get('roleId')?.invalid && userForm.get('roleId')?.touched){
+      <mat-error>
+        請選擇一個角色
+      </mat-error>
+      }
+
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()" [disabled]="isLoading">取消</button>
+  <button mat-raised-button color="primary" [disabled]="userForm.invalid || isLoading" (click)="createUser()">
+    @if(!isLoading){
+    <span>確認</span>
+    }
+    @else {
+    <mat-progress-spinner diameter="24" mode="indeterminate"></mat-progress-spinner>
+    }
+  </button>
+</mat-dialog-actions>

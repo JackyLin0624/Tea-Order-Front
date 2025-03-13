@@ -1,0 +1,57 @@
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()" [disabled]="isLoading">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>
+<mat-dialog-content class="dialog-content">
+  @if (isLoading) {
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+  }
+  @else {
+  <div class="order-container">
+    <h2>訂單詳情</h2>
+
+    <mat-card class="order-card">
+      <mat-card-content>
+        <p><strong>訂單編號:</strong> {{ order.id }}</p>
+        <p><strong>稱謂:</strong> {{ order.title }}</p>
+        <p><strong>電話:</strong> {{ order.phone }}</p>
+        <p><strong>地址:</strong> {{ order.address }}</p>
+        <p><strong>總金額:</strong> {{ order.totalAmount }} 元</p>
+        <p><strong>訂購日期:</strong> {{ order.orderDate | date:'yyyy-MM-dd' }}</p>
+        <p><strong>建立時間:</strong> {{ order.createAt | date:'yyyy-MM-dd HH:mm' }}</p>
+        <p><strong>訂單狀態:</strong> {{ order.orderStatus }}</p>
+        @if (order.remark) {
+        <p><strong>備註:</strong> {{ order.remark }}</p>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <h3>訂單內容</h3>
+    @for(item of order.items; track item.id) {
+    <mat-card class="order-item-card">
+      <mat-card-content>
+        <h4>{{ item.productName }} - {{ item.productSizeName }}</h4>
+        <p>數量: {{ item.count }}</p>
+        <p>單價: {{ item.price }} 元</p>
+        <p>總價: {{ calculateItemTotal(item)}} 元</p>
+
+        @if (item.options.length) {
+        <p><strong>選項:</strong>
+          @for(option of item.options; track option.variantValueId) {
+          {{ option.variantType }}: {{ option.variantValue }}
+          @if (option.extraValue > 0) {
+          (+{{ option.extraValue }}元)
+          }
+          }
+        </p>
+        }
+        <p>備註: {{ item.remark }}</p>
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
+  }
+</mat-dialog-content>

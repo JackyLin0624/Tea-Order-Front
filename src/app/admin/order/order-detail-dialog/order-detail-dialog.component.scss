@@ -1,0 +1,28 @@
+.dialog-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.order-container {
+  padding: 0rem;
+}
+
+.order-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+}
+
+.order-item-card {
+  padding: .5rem;
+  margin: 0.5rem 0;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}

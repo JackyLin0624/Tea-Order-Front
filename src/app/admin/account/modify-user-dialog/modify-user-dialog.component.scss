@@ -1,0 +1,16 @@
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content {
+  min-width: 400px;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.account-text{
+  font-size: 1rem;
+  padding: 0 0 1rem 0;
+}

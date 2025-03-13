@@ -1,0 +1,38 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.product-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  border-radius: 10px;
+  background: #f9f9f9;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  mat-card-header {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  mat-card-content {
+    font-size: 14px;
+    color: #666;
+  }
+}
