@@ -71,7 +71,8 @@ export class CreateOrderDialogComponent implements OnInit {
   }
   filterDate = (d: Date | null): boolean => {
     const today = new Date();
-    return d ? d > today : false;
+    today.setHours(0, 0, 0, 0);
+    return d ? d >= today : false;
   };
 
   submitOrder(): void {
@@ -108,6 +109,7 @@ export class CreateOrderDialogComponent implements OnInit {
         next: data => {
           if (data.resultCode === 0) {
             this.openSnackBar('創建成功', '確定');
+            this.dialogRef.close(true);
           }
           console.log(data);
         },
