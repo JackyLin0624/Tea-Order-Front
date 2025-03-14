@@ -79,7 +79,7 @@ export class ModifyAddedProductDialogComponent {
     this.productService.GetProductById(req).subscribe({
       next: data => {
         if (data === null) {
-          this.openSnackBar('商品已下架','確認');
+          this.openSnackBar('商品下架後，無法再修改明細','確認');
           this.dialogRef.close();
         }
         this.product = data;

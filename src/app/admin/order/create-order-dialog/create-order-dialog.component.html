@@ -49,7 +49,7 @@
     @if(orderItems.length > 0) {
       <div class="order-items-container">
         @for(item of orderItems; track item.productId) {
-          <mat-card >
+          <mat-card>
             <mat-card-content>
               <h4>{{ item.productName }} - {{ item.size.size }}</h4>
               <p>數量: {{ item.count }}</p>
