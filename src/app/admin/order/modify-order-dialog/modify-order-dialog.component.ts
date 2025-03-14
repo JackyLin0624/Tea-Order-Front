@@ -130,7 +130,8 @@ export class ModifyOrderDialogComponent implements OnInit {
 
   filterDate = (d: Date | null): boolean => {
     const today = new Date();
-    return d ? d > today : false;
+    today.setHours(0, 0, 0, 0);
+    return d ? d >= today : false;
   };
 
   submitOrder(): void {
@@ -175,6 +176,12 @@ export class ModifyOrderDialogComponent implements OnInit {
           }
           else if (data.resultCode === -2) {
             this.openSnackBar('表單狀態已無法修改', '確定');
+          }
+          else if (data.resultCode === -3) {
+            this.openSnackBar('產品資料庫錯誤', '確定');
+          }
+          else if (data.resultCode === -4) {
+            this.openSnackBar('產品尺寸資料庫錯誤', '確定');
           }
           this.dialogRef.close(true);
           console.log(data);
