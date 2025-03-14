@@ -90,6 +90,7 @@ export class CreateUserDialogComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(4)]],
       roleId: [3, Validators.required]
     });
+
   }
 
   createUser() {
